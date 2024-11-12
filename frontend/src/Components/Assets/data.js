@@ -36,5 +36,6 @@ let data_product = [
     new_price: 26.99,
     old_price: 34.99,
   }
+]
 
 export default data_product;
