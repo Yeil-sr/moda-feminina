@@ -7,7 +7,7 @@ const ListProduct = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('https://moda-feminina-api.vercel.app/products/allproducts',);
+            const response = await fetch('https://moda-feminina-api.vercel.app/products/allproducts');
             const data = await response.json();
             if (data.success) {
                 setAllProducts(data.products); // Ajuste aqui para garantir que `products` esteja correto
