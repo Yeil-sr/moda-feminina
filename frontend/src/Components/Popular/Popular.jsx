@@ -6,7 +6,9 @@ const Popular = () => {
     const [popularProducts, setPopularProducts] = useState([]);
 
     useEffect(() => {
-        fetch('https://moda-feminina-api.vercel.app/products/popularlingerie')
+        const API_URL = process.env.REACT_APP_API_URL;
+    
+        fetch(`${API_URL}/products/popularlingerie`)
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.products)) {
@@ -17,7 +19,7 @@ const Popular = () => {
             })
             .catch((error) => console.error('Erro na requisição de produtos populares:', error));
     }, []);
-    
+        
     return (
         <div className='popular'>
             <h1>Confira nossos Lançamentos</h1>

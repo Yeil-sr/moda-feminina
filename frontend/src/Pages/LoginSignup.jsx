@@ -14,50 +14,53 @@ const LoginSignup = () => {
     };
 
     const login = async () => {
+        const API_URL = process.env.REACT_APP_API_URL;
+    
         let responseData;
-        await fetch('https://moda-feminina-api.vercel.app/users/login', {
+        await fetch(`${API_URL}/users/login`, {
             method: 'POST',
             headers: {
-                Accept: 'application/form-data',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
-        }).then((response) => response.json()).then((data) => responseData = data);
+        })
+        .then((response) => response.json())
+        .then((data) => responseData = data);
     
         if (responseData.success) {
             localStorage.setItem('auth-token', responseData.token);
             localStorage.setItem('user-email', formData.email);
-    
-            if (formData.email === "admin123@email.com") {
-                window.location.replace("https://moda-feminina.vercel.app/addproduct");
-            } else {
-                window.location.replace("https://moda-feminina.vercel.app/");
-            }
+            window.location.replace(formData.email === "admin123@email.com" ? "/addproduct" : "/");
         } else {
             alert(responseData.errors);
         }
     };
     
     const signup = async () => {
+        const API_URL = process.env.REACT_APP_API_URL;
+    
         let responseData;
-        await fetch('https://moda-feminina-api.vercel.app/users/signup', {
+        await fetch(`${API_URL}/users/signup`, {
             method: 'POST',
             headers: {
-                Accept: 'application/form-data',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
-        }).then((response) => response.json()).then((data) => responseData = data);
+        })
+        .then((response) => response.json())
+        .then((data) => responseData = data);
     
         if (responseData.success) {
             localStorage.setItem('auth-token', responseData.token);
             localStorage.setItem('user-email', formData.email);
-            window.location.replace("https://moda-feminina.vercel.app/");
+            window.location.replace("/");
         } else {
             alert(responseData.errors);
         }
     };
-    
+        
     return (
         <div className='loginsignup'>
             <div className="loginsignup-container">

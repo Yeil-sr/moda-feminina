@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-// import all_product from "../Components/Assets/all_product";
 
 export const ShopContext = createContext(null);
 
@@ -12,12 +11,13 @@ const getDefaultCart = () => {
 };
 
 const ShopContextProvider = (props) => {
-
-    const [all_product,setAll_Product]= useState([]);
+    const [all_product, setAll_Product] = useState([]);
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
     useEffect(() => {
-        fetch('https://moda-feminina-api.vercel.app/products/allproducts')
+        const API_URL = process.env.REACT_APP_API_URL;
+        
+        fetch(`${API_URL}/products/allproducts`)
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.products)) {
@@ -25,29 +25,33 @@ const ShopContextProvider = (props) => {
                 } else {
                     console.error('Erro: Dados dos produtos não estão no formato esperado');
                 }
+
                 if (localStorage.getItem('auth-token')) {
-                    fetch('https://moda-feminina-api.vercel.app/cart/getcart', {
+                    fetch(`${API_URL}/cart/getcart`, {
                         method: 'POST',
                         headers: {
-                            Accept: 'application/form-data',
+                            Accept: 'application/json',
                             'auth-token': `${localStorage.getItem('auth-token')}`,
                             'Content-Type': 'application/json',
                         },
                         body: "",
-                    }).then((response) => response.json())
-                        .then((data) => setCartItems(data));
+                    })
+                    .then((response) => response.json())
+                    .then((data) => setCartItems(data));
                 }
             })
             .catch((error) => console.error('Erro ao buscar produtos:', error));
     }, []);
-    
+
     const addToCart = (itemId) => {
+        const API_URL = process.env.REACT_APP_API_URL;
+
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
         if (localStorage.getItem('auth-token')) {
-            fetch('https://moda-feminina-api.vercel.app/cart/addtocart', {
+            fetch(`${API_URL}/cart/addtocart`, {
                 method: 'POST',
                 headers: {
-                    Accept: 'application/form-data',
+                    Accept: 'application/json',
                     'auth-token': `${localStorage.getItem('auth-token')}`,
                 },
                 body: JSON.stringify({ itemId }),
@@ -56,14 +60,16 @@ const ShopContextProvider = (props) => {
             .then((data) => console.log(data));
         }
     };
-    
+
     const removeFromCart = (itemId) => {
+        const API_URL = process.env.REACT_APP_API_URL;
+
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
         if (localStorage.getItem('auth-token')) {
-            fetch('https://moda-feminina-api.vercel.app/cart/removefromcart', {
+            fetch(`${API_URL}/cart/removefromcart`, {
                 method: 'POST',
                 headers: {
-                    Accept: 'application/form-data',
+                    Accept: 'application/json',
                     'auth-token': `${localStorage.getItem('auth-token')}`,
                 },
                 body: JSON.stringify({ itemId }),
@@ -72,7 +78,7 @@ const ShopContextProvider = (props) => {
             .then((data) => console.log(data));
         }
     };
-    
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
@@ -82,16 +88,6 @@ const ShopContextProvider = (props) => {
             }
         }
         return totalAmount;
-    };
-
-    const getTotalCartItems = () => {
-        let totalItem = 0;
-        for (const item in cartItems) {
-            if (cartItems[item] > 0) {
-                totalItem += cartItems[item];
-            }
-        }
-        return totalItem;
     };
 
     const contextValue = { getTotalCartAmount, all_product, cartItems, addToCart, removeFromCart };
