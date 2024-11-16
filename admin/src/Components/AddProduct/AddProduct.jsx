@@ -30,7 +30,7 @@ const AddProduct = () => {
         formData.append('product', image);
 
         // Enviar imagem para o backend
-        await fetch('http://localhost:4000/uploads/upload', {
+        await fetch('https://moda-feminina-api.vercel.app/uploads/upload', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -45,7 +45,7 @@ const AddProduct = () => {
             console.log(product);
 
             // Enviar dados do produto para o backend
-            await fetch('http://localhost:4000/products/addproduct', {
+            await fetch('https://moda-feminina-api.vercel.app/products/addproduct', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
