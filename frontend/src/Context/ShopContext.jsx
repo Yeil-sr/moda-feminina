@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-// import all_product from "../Components/Assets/all_product";
 
 export const ShopContext = createContext(null);
 
@@ -11,74 +10,114 @@ const getDefaultCart = () => {
     return cart;
 };
 
-const ShopContextProvider = (props) => {
+const fetchWithTimeout = (url, options, timeout = 5000) => {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Tempo limite excedido")), timeout)
+        ),
+    ]);
+};
 
-    const [all_product,setAll_Product]= useState([]);
+const ShopContextProvider = (props) => {
+    const [all_product, setAll_Product] = useState([]);
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
     useEffect(() => {
-        fetch('https://moda-feminina-api.vercel.app/products/allproducts')
-            .then((response) => response.json())
-            .then((data) => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetchWithTimeout(
+                    "https://moda-feminina-api.vercel.app/products/allproducts",
+                    { method: "GET" }
+                );
+                const data = await response.json();
+
                 if (Array.isArray(data.products)) {
                     setAll_Product(data.products);
                 } else {
-                    console.error('Erro: Dados dos produtos não estão no formato esperado');
+                    console.error("Erro: Dados dos produtos não estão no formato esperado");
                 }
-                if (localStorage.getItem('auth-token')) {
-                    fetch('https://moda-feminina-api.vercel.app/cart/getcart', {
-                        method: 'POST',
-                        headers: {
-                            Accept: 'application/form-data',
-                            'auth-token': `${localStorage.getItem('auth-token')}`,
-                            'Content-Type': 'application/json',
-                        },
-                        body: "",
-                    }).then((response) => response.json())
-                        .then((data) => setCartItems(data));
+            } catch (error) {
+                console.error("Erro ao buscar produtos:", error.message);
+            }
+
+            // Carregar itens do carrinho, se autenticado
+            if (localStorage.getItem("auth-token")) {
+                try {
+                    const response = await fetchWithTimeout(
+                        "https://moda-feminina-api.vercel.app/cart/getcart",
+                        {
+                            method: "POST",
+                            headers: {
+                                Accept: "application/json",
+                                "auth-token": `${localStorage.getItem("auth-token")}`,
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+                    const data = await response.json();
+                    setCartItems(data);
+                } catch (error) {
+                    console.error("Erro ao buscar itens do carrinho:", error.message);
                 }
-            })
-            .catch((error) => console.error('Erro ao buscar produtos:', error));
+            }
+        };
+
+        fetchProducts();
     }, []);
-    
-    const addToCart = (itemId) => {
+
+    const addToCart = async (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        if (localStorage.getItem('auth-token')) {
-            fetch('https://moda-feminina-api.vercel.app/cart/addtocart', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/form-data',
-                    'auth-token': `${localStorage.getItem('auth-token')}`,
-                },
-                body: JSON.stringify({ itemId }),
-            })
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+        if (localStorage.getItem("auth-token")) {
+            try {
+                const response = await fetchWithTimeout(
+                    "https://moda-feminina-api.vercel.app/cart/addtocart",
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "auth-token": `${localStorage.getItem("auth-token")}`,
+                        },
+                        body: JSON.stringify({ itemId }),
+                    }
+                );
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error("Erro ao adicionar item ao carrinho:", error.message);
+            }
         }
     };
-    
-    const removeFromCart = (itemId) => {
+
+    const removeFromCart = async (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-        if (localStorage.getItem('auth-token')) {
-            fetch('https://moda-feminina-api.vercel.app/cart/removefromcart', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/form-data',
-                    'auth-token': `${localStorage.getItem('auth-token')}`,
-                },
-                body: JSON.stringify({ itemId }),
-            })
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+        if (localStorage.getItem("auth-token")) {
+            try {
+                const response = await fetchWithTimeout(
+                    "https://moda-feminina-api.vercel.app/cart/removefromcart",
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "auth-token": `${localStorage.getItem("auth-token")}`,
+                        },
+                        body: JSON.stringify({ itemId }),
+                    }
+                );
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error("Erro ao remover item do carrinho:", error.message);
+            }
         }
     };
-    
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {
             if (cartItems[item] > 0) {
                 let itemInfo = all_product.find((product) => product.id === Number(item));
-                totalAmount += itemInfo.new_price * cartItems[item];
+                totalAmount += itemInfo?.new_price * cartItems[item];
             }
         }
         return totalAmount;
