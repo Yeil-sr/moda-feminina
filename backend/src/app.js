@@ -9,20 +9,11 @@ const fs = require('fs')
 
 const app = express();
 app.use(express.json());
-// Configuração do CORS
-const corsOptions = {
-    origin: ['https://moda-feminina.vercel.app/'], // Domínio do frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization', 'auth-token'], // Cabeçalhos permitidos
-    credentials: true, // Permitir envio de cookies/sessões
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.get("/", (req,res)=>{
     res.send('Servidor rodando')
 })
-
 // Configuração de rotas
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
