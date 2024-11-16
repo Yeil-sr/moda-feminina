@@ -20,4 +20,9 @@ app.use("/cart", cartRoutes);
 app.use("/images", express.static("upload/images"));
 app.use("/uploads", uploadRoutes);
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send({ success: false, message: 'Server error, please try again later.' });
+});
+
 module.exports = app;

@@ -17,6 +17,7 @@ const uploadBufferToGCS = (buffer, destination, mimetype) => {
             metadata: {
                 contentType: mimetype,
             },
+            timeout: 60000, // 60 segundos
         });
 
         stream.on('error', (err) => reject(err));
