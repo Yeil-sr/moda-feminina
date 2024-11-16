@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const path = require('path');
 
@@ -7,40 +6,40 @@ const storage = new Storage({
     keyFilename: path.resolve(__dirname, '../key.json'), // Caminho relativo ao backend
 });
 
-
-const bucketName = 'moda-imagens'; // Nome do bucket criado no Google Cloud
+const bucketName = 'moda-imagens';
 const bucket = storage.bucket(bucketName);
 
-// Função para fazer upload para o Google Cloud Storage
-const uploadToGCS = (filePath, destination) => {
+// Função para fazer upload para o Google Cloud Storage usando buffers
+const uploadBufferToGCS = (buffer, destination, mimetype) => {
     return new Promise((resolve, reject) => {
-        bucket.upload(filePath, { destination }, (err, file) => {
-            if (err) return reject(err);
-            // URL pública do arquivo
+        const file = bucket.file(destination);
+        const stream = file.createWriteStream({
+            metadata: {
+                contentType: mimetype,
+            },
+        });
+
+        stream.on('error', (err) => reject(err));
+        stream.on('finish', () => {
             resolve(`https://storage.googleapis.com/${bucketName}/${destination}`);
         });
+
+        stream.end(buffer);
     });
 };
-
 
 exports.uploadImage = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'No file uploaded' });
     }
 
-    const localFilePath = req.file.path; // Caminho local do arquivo
-    const destination = `images/${req.file.filename}`; // Caminho no bucket
+    const destination = `images/${Date.now()}_${req.file.originalname}`;
 
     try {
-        // Upload para o Google Cloud Storage
-        const imageUrl = await uploadToGCS(localFilePath, destination);
-
-        // Após upload, pode-se apagar o arquivo local (opcional)
-        fs.unlinkSync(localFilePath);
-
+        const imageUrl = await uploadBufferToGCS(req.file.buffer, destination, req.file.mimetype);
         res.json({
             success: 1,
-            image_url: imageUrl, // URL pública da imagem
+            image_url: imageUrl,
         });
     } catch (err) {
         console.error(err);
