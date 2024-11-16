@@ -1,27 +1,41 @@
-import React, { useState, useContext, useRef } from 'react'; // Added useRef import
-import { Link } from 'react-router-dom';
+import React, { useState, useContext, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logo from '../Assets/logo.png';
 import cart_icon from '../Assets/cart_icon.png';
 import { ShopContext } from '../../Context/ShopContext';
-// import dropdown from '../../Assets/dropdown_icon.png'; // Updated path
 
 const Navbar = () => {
-
     const [menu, setMenu] = useState("shop");
     const { getTotalCartAmount } = useContext(ShopContext);
+    const [isAdmin, setIsAdmin] = useState(false);
     const menuRef = useRef();
+    const navigate = useNavigate();
 
-    const dropdown_toggle = (e) => { // Added e as a parameter
+    useEffect(() => {
+        const email = localStorage.getItem('user-email');
+        if (email === 'admin123@email.com') {
+            setIsAdmin(true);
+        }
+    }, []);
+
+    const dropdown_toggle = (e) => {
         menuRef.current.classList.toggle('nav-menu-visible');
         e.target.classList.toggle('open');
-    }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('auth-token');
+        localStorage.removeItem('user-email');
+        navigate('/login');
+        setIsAdmin(false);
+    };
 
     return (
         <div className='navbar'>
-            <div className="nav-logo">
+            <div className="nav-logo" onClick={() => navigate('/')}>
                 <img src={logo} alt="Logo" />
-                <p>MODA <br/> ÍNTIMA</p>
+                <p>MODA <br /> ÍNTIMA</p>
             </div>
             <img className='nav-dropdown' onClick={dropdown_toggle} src="" alt="" />
             <ul ref={menuRef} className="nav-menu">
@@ -43,7 +57,16 @@ const Navbar = () => {
                 </li>
             </ul>
             <div className="nav-login-cart">
-                <Link to='/login'><button>Login</button></Link>
+                {isAdmin && (
+                    <button onClick={() => navigate('/addproduct')}>
+                        Admin
+                    </button>
+                )}
+                {localStorage.getItem('auth-token') ? (
+                    <button onClick={handleLogout}>Logout</button>
+                ) : (
+                    <Link to='/login'><button>Login</button></Link>
+                )}
                 <Link to='/cart'>
                     <img src={cart_icon} alt="Cart" />
                 </Link>
