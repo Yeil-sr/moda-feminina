@@ -8,12 +8,12 @@ const NewCollections = ()=>{
 
     const [new_collection,setNew_collection] = useState([]);
 
-    useEffect(()=>{
-        fetch('http://localhost:4000/products/newcollections')
-        .then((response)=>response.json())
-        .then((data)=>setNew_collection(data));
-    },[])
-
+    useEffect(() => {
+        fetch('https://moda-feminina-api.vercel.app/products/newcollections')
+            .then((response) => response.json())
+            .then((data) => setNew_collection(data));
+    }, []);
+    
     return(
         <div className='new-collections'>
             <h1>Confira nossos Destaques</h1>

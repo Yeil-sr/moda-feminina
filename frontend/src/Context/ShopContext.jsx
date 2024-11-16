@@ -17,62 +17,62 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState(getDefaultCart());
 
     useEffect(() => {
-        fetch('http://localhost:4000/products/allproducts')
+        fetch('https://moda-feminina-api.vercel.app/products/allproducts')
             .then((response) => response.json())
             .then((data) => {
-                if (Array.isArray(data.products)) { // Ajuste para acessar o array correto
+                if (Array.isArray(data.products)) {
                     setAll_Product(data.products);
                 } else {
                     console.error('Erro: Dados dos produtos não estão no formato esperado');
                 }
-                if(localStorage.getItem('auth-token')){
-                    fetch('http://localhost:4000/cart/getcart',{
-                        method:'POST',
-                        headers:{
-                            Accept:'application/form-data',
-                            'auth-token':`${localStorage.getItem('auth-token')}`,
-                            'Content-Type':'application/json',
+                if (localStorage.getItem('auth-token')) {
+                    fetch('https://moda-feminina-api.vercel.app/cart/getcart', {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/form-data',
+                            'auth-token': `${localStorage.getItem('auth-token')}`,
+                            'Content-Type': 'application/json',
                         },
-                        body:"",
-                    }).then((response)=>response.json())
-                    .then((data)=>setCartItems(data));
+                        body: "",
+                    }).then((response) => response.json())
+                        .then((data) => setCartItems(data));
                 }
             })
             .catch((error) => console.error('Erro ao buscar produtos:', error));
     }, []);
-        
+    
     const addToCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:40000/cart/addtocart',{
-                method:'POST',
-                headers:{
-                    Accept:'application/form-data',
-                    'auth-token':`${localStorage.getItem('auth-token')},`
+        if (localStorage.getItem('auth-token')) {
+            fetch('https://moda-feminina-api.vercel.app/cart/addtocart', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/form-data',
+                    'auth-token': `${localStorage.getItem('auth-token')}`,
                 },
-                body:JSON.stringify({"itemId":itemId})
+                body: JSON.stringify({ itemId }),
             })
-            .then((response)=>response.json())
-            .then((data)=>console.log(data));
+            .then((response) => response.json())
+            .then((data) => console.log(data));
         }
     };
-
+    
     const removeFromCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-        if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:40000/cart/removefromcart',{
-                method:'POST',
-                headers:{
-                    Accept:'application/form-data',
-                    'auth-token':`${localStorage.getItem('auth-token')},`
+        if (localStorage.getItem('auth-token')) {
+            fetch('https://moda-feminina-api.vercel.app/cart/removefromcart', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/form-data',
+                    'auth-token': `${localStorage.getItem('auth-token')}`,
                 },
-                body:JSON.stringify({"itemId":itemId})
+                body: JSON.stringify({ itemId }),
             })
-            .then((response)=>response.json())
-            .then((data)=>console.log(data));
+            .then((response) => response.json())
+            .then((data) => console.log(data));
         }
     };
-
+    
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const item in cartItems) {

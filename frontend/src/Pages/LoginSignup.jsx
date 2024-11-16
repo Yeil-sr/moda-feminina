@@ -15,7 +15,7 @@ const LoginSignup = () => {
 
     const login = async () => {
         let responseData;
-        await fetch('http://localhost:4000/users/login', {
+        await fetch('https://moda-feminina-api.vercel.app/users/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/form-data',
@@ -23,24 +23,24 @@ const LoginSignup = () => {
             },
             body: JSON.stringify(formData),
         }).then((response) => response.json()).then((data) => responseData = data);
-
+    
         if (responseData.success) {
             localStorage.setItem('auth-token', responseData.token);
             localStorage.setItem('user-email', formData.email);
-            
+    
             if (formData.email === "admin123@email.com") {
-                window.location.replace("http://localhost:5173/addproduct");
+                window.location.replace("https://moda-feminina.vercel.app/addproduct");
             } else {
-                window.location.replace("http://localhost:3000/");
+                window.location.replace("https://moda-feminina.vercel.app/");
             }
         } else {
             alert(responseData.errors);
         }
     };
-
+    
     const signup = async () => {
         let responseData;
-        await fetch('http://localhost:4000/users/signup', {
+        await fetch('https://moda-feminina-api.vercel.app/users/signup', {
             method: 'POST',
             headers: {
                 Accept: 'application/form-data',
@@ -48,16 +48,16 @@ const LoginSignup = () => {
             },
             body: JSON.stringify(formData),
         }).then((response) => response.json()).then((data) => responseData = data);
-
+    
         if (responseData.success) {
             localStorage.setItem('auth-token', responseData.token);
             localStorage.setItem('user-email', formData.email);
-            window.location.replace("http://localhost:3000/");
+            window.location.replace("https://moda-feminina.vercel.app/");
         } else {
             alert(responseData.errors);
         }
     };
-
+    
     return (
         <div className='loginsignup'>
             <div className="loginsignup-container">
