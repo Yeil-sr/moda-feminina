@@ -72,7 +72,7 @@ const LoginSignup = () => {
                             value={formData.username}
                             onChange={changeHandler}
                             type="text"
-                            placeholder='Your Name'
+                            placeholder='Seu Nome'
                         />
                     )}
                     <input
@@ -80,25 +80,25 @@ const LoginSignup = () => {
                         value={formData.email}
                         onChange={changeHandler}
                         type="email"
-                        placeholder='Email Address'
+                        placeholder='Endereço de Email'
                     />
                     <input
                         name="password"
                         value={formData.password}
                         onChange={changeHandler}
                         type="password"
-                        placeholder='Password'
+                        placeholder='Senha'
                     />
                 </div>
                 <button onClick={() => { state === "Login" ? login() : signup(); }}>Continue</button>
                 {state === "Sign Up" ? (
-                    <p className="loginsignup-login">Already have an account? <span onClick={() => { setState("Login"); }}>Login here</span></p>
+                    <p className="loginsignup-login">Já tem uma conta? <span onClick={() => { setState("Login"); }}>Faça login aqui</span></p>
                 ) : (
-                    <p className="loginsignup-login">Create an account? <span onClick={() => { setState("Sign Up"); }}>Click here</span></p>
+                    <p className="loginsignup-login">Criar uma conta? <span onClick={() => { setState("Sign Up"); }}>Clique aqui</span></p>
                 )}
                 <div className="loginsignup-agree">
                     <input type="checkbox" name='' id='' />
-                    <p>By continuing, I agree to the terms of use & privacy policy</p>
+                    <p>Ao continuar, concordo com os termos de uso e política de privacidade</p>
                 </div>
             </div>
         </div>

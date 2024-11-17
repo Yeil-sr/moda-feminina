@@ -71,7 +71,7 @@ const AddProduct = () => {
                     onChange={changeHandler}
                     type="text"
                     name="name"
-                    placeholder="Type here"
+                    placeholder="Digite aqui"
                 />
             </div>
             <div className="addproduct-price">
@@ -82,7 +82,7 @@ const AddProduct = () => {
                         onChange={changeHandler}
                         type="text"
                         name="old_price"
-                        placeholder="Type here"
+                        placeholder="Digite aqui"
                     />
                 </div>
             </div>
@@ -94,7 +94,7 @@ const AddProduct = () => {
                         onChange={changeHandler}
                         type="text"
                         name="new_price"
-                        placeholder="Type here"
+                        placeholder="Digite aqui"
                     />
                 </div>
             </div>
