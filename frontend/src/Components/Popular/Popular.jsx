@@ -8,7 +8,7 @@ const Popular = () => {
     useEffect(() => {
         const API_URL = process.env.REACT_APP_API_URL;
 
-        fetch(`${API_URL}/products/newCollections`) // Alterado para o endpoint correto
+        fetch(`${API_URL}/products/newcollections`) // Alterado para o endpoint correto
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.products)) {
