@@ -3,32 +3,32 @@ import './Popular.css';
 import Item from '../Item/Item';
 
 const Popular = () => {
-    const [popularProducts, setPopularProducts] = useState([]);
+    const [newCollection, setNewCollection] = useState([]);
 
     useEffect(() => {
         const API_URL = process.env.REACT_APP_API_URL;
-    
-        fetch(`${API_URL}/products/popularlingerie`)
+
+        fetch(`${API_URL}/products/newCollections`) // Alterado para o endpoint correto
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.products)) {
-                    setPopularProducts(data.products);
+                    setNewCollection(data.products); // Atualiza o estado com os produtos
                 } else {
-                    console.error('Erro ao carregar produtos populares');
+                    console.error('Erro ao carregar a nova coleção');
                 }
             })
-            .catch((error) => console.error('Erro na requisição de produtos populares:', error));
+            .catch((error) => console.error('Erro na requisição da nova coleção:', error));
     }, []);
-        
+
     return (
         <div className='popular'>
-            <h1>Confira nossos Lançamentos</h1>
+            <h1>Confira nossa Nova Coleção</h1>
             <hr />
             <div className="popular-item">
-                {popularProducts.length === 0 ? (
-                    <p>Nenhum lançamento encontrado</p>
+                {newCollection.length === 0 ? (
+                    <p>Nenhum item encontrado na nova coleção</p>
                 ) : (
-                    popularProducts.map((item) => (
+                    newCollection.map((item) => (
                         <Item
                             key={item.id}
                             id={item.id}
