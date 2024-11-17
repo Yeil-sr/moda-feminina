@@ -31,7 +31,7 @@ const LoginSignup = () => {
         if (responseData.success) {
             localStorage.setItem('auth-token', responseData.token);
             localStorage.setItem('user-email', formData.email);
-            window.location.replace(formData.email === "admin123@email.com" ? "/addproduct" : "/");
+            window.location.replace(formData.email === "admin123@email.com" ? "https://moda-feminina-admin.vercel.app//addproduct" : "/");
         } else {
             alert(responseData.errors);
         }
