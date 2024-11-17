@@ -29,36 +29,45 @@ const AddProduct = () => {
         let formData = new FormData();
         formData.append('product', image);
 
-        // Enviar imagem para o backend
-        await fetch('https://moda-feminina-server-production.up.railway.app/uploads/upload', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-            },
-            body: formData,
-        })
-            .then((resp) => resp.json())
-            .then((data) => { responseData = data });
-
-        if (responseData.success) {
-            product.image = responseData.image_url;
-            console.log(product);
-
-            // Enviar dados do produto para o backend
-            await fetch('https://moda-feminina-server-production.up.railway.app/products/addproduct', {
+        try {
+            // Enviar imagem para o backend
+            const uploadResponse = await fetch('https://moda-feminina-server-production.up.railway.app/uploads/upload', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
-                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(product),
-            })
-                .then((resp) => resp.json())
-                .then((data) => {
-                    if (data.success) {
-                        console.log("Produto adicionado com sucesso");
-                    }
+                body: formData,
+            });
+            responseData = await uploadResponse.json();
+
+            if (responseData.success) {
+                product.image = responseData.image_url;
+                console.log(product);
+
+                // Enviar dados do produto para o backend
+                const addProductResponse = await fetch('https://moda-feminina-server-production.up.railway.app/products/addproduct', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(product),
                 });
+                const addProductData = await addProductResponse.json();
+
+                if (addProductData.success) {
+                    alert("Produto adicionado com sucesso!");
+                    // Recarregar a página para limpar os campos
+                    window.location.reload();
+                } else {
+                    alert("Erro ao adicionar o produto. Tente novamente.");
+                }
+            } else {
+                alert("Erro ao enviar a imagem. Tente novamente.");
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            alert("Ocorreu um erro inesperado. Verifique a conexão e tente novamente.");
         }
     };
 

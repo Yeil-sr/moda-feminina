@@ -8,7 +8,7 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '/api': 'https://moda-feminina-api.vercel.app/'
+            '/api': 'https://moda-feminina-server-production.up.railway.app'
         },
     },
 });
