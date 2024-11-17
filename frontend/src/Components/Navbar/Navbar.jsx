@@ -58,7 +58,7 @@ const Navbar = () => {
             </ul>
             <div className="nav-login-cart">
                 {isAdmin && (
-                    <button onClick={() => navigate('https://moda-feminina-admin.vercel.app/')}>
+                    <button onClick={() => navigate(window.location='https://moda-feminina-admin.vercel.app/')}>
                         Admin
                     </button>
                 )}
