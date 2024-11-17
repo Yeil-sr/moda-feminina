@@ -65,7 +65,7 @@ const AddProduct = () => {
     return (
         <div className="add-product">
             <div className="addproduct-itemfield">
-                <p>Product title</p>
+                <p>Título do produto</p>
                 <input
                     value={productDetails.name}
                     onChange={changeHandler}
@@ -76,7 +76,7 @@ const AddProduct = () => {
             </div>
             <div className="addproduct-price">
                 <div className="addproduct-itemfiled">
-                    <p>Price</p>
+                    <p>Preço</p>
                     <input
                         value={productDetails.old_price}
                         onChange={changeHandler}
@@ -88,7 +88,7 @@ const AddProduct = () => {
             </div>
             <div className="addproduct-price">
                 <div className="addproduct-itemfiled">
-                    <p>Offer Price</p>
+                    <p>Preço da oferta</p>
                     <input
                         value={productDetails.new_price}
                         onChange={changeHandler}
@@ -99,7 +99,7 @@ const AddProduct = () => {
                 </div>
             </div>
             <div className="addproduct-itemfield">
-                <p>Product Category</p>
+                <p>Categoria de produto</p>
                 <select
                     value={productDetails.category}
                     onChange={changeHandler}
@@ -128,7 +128,7 @@ const AddProduct = () => {
                 />
             </div>
             <button onClick={Add_Product} className="addproduct-btn">
-                ADD
+                Adicionar
             </button>
         </div>
     );

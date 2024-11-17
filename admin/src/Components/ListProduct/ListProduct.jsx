@@ -42,8 +42,8 @@ const ListProduct = () => {
             <div className="listproduct-format-main">
                 <p>Produtos</p>
                 <p>Títuto</p>
-                <p>Old Price</p>
-                <p>New Price</p>
+                <p>Preço antigo</p>
+                <p>Novo preço</p>
                 <p>Categoria</p>
                 <p>Remover</p>
             </div>
