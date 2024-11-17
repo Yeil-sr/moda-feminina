@@ -25,10 +25,10 @@ const AddProduct = () => {
         console.log(productDetails);
         let responseData;
         let product = { ...productDetails };
-
+    
         let formData = new FormData();
         formData.append('product', image);
-
+    
         try {
             // Enviar imagem para o backend
             const uploadResponse = await fetch('https://moda-feminina-server-production.up.railway.app/uploads/upload', {
@@ -39,11 +39,11 @@ const AddProduct = () => {
                 body: formData,
             });
             responseData = await uploadResponse.json();
-
+    
             if (responseData.success) {
                 product.image = responseData.image_url;
                 console.log(product);
-
+    
                 // Enviar dados do produto para o backend
                 const addProductResponse = await fetch('https://moda-feminina-server-production.up.railway.app/products/addproduct', {
                     method: 'POST',
@@ -54,11 +54,11 @@ const AddProduct = () => {
                     body: JSON.stringify(product),
                 });
                 const addProductData = await addProductResponse.json();
-
+    
                 if (addProductData.success) {
                     alert("Produto adicionado com sucesso!");
-                    // Recarregar a página para limpar os campos
-                    window.location.reload();
+                    // Redirecionar para a URL do admin
+                    window.location.href = "https://moda-feminina-admin.vercel.app";
                 } else {
                     alert("Erro ao adicionar o produto. Tente novamente.");
                 }
@@ -70,7 +70,7 @@ const AddProduct = () => {
             alert("Ocorreu um erro inesperado. Verifique a conexão e tente novamente.");
         }
     };
-
+    
     return (
         <div className="add-product">
             <div className="addproduct-itemfield">
