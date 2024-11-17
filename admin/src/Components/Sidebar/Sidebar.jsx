@@ -10,14 +10,14 @@ const Sidebar = ()=>{
             <Link to={'/addproduct'} style={{textDecoration:"none"}}>
                 <div className="sidebar-item">
                     <img src={add_product_icon} alt="" />
-                    <p>Add Product</p>
+                    <p>Adicionar Produtuo</p>
                 </div>
                 
             </Link>
             <Link to={'/listproduct'} style={{textDecoration:"none"}}>
                 <div className="sidebar-item">
                     <img src={list_product_icon} alt="" />
-                    <p>Product List</p>
+                    <p>Listar Produtos</p>
                 </div>
             </Link>
         </div>
