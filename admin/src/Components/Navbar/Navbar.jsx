@@ -5,7 +5,7 @@ import navProfile from '../../assets/nav-profile.svg';
 
 const Navbar = () => {
     const redirectToHome = () => {
-        window.location.href = "http://localhost:3000/";
+        window.location.href = "https://moda-feminina-frontend.vercel.app/";
     };
 
     return (
