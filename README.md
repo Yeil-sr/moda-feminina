@@ -1,6 +1,6 @@
 # Moda Feminina
 
-Bem-vindo ao projeto **Moda Feminina**, uma aplicação web que conecta as últimas tendências de moda feminina com uma interface moderna e intuitiva. Este projeto é composto por quatro partes principais: **admin**, **frontend**, **backend** e **services**, que trabalham juntas para oferecer uma experiência fluida aos usuários.
+Bem-vindo ao projeto **Moda Feminina**, uma aplicação web desenvolvida para conectar mulheres às últimas tendências da moda íntima. Este sistema oferece uma interface moderna e prática para navegação, gerenciamento de produtos e compras online, garantindo uma experiência única e intuitiva.
 
 ---
 
@@ -12,17 +12,21 @@ Bem-vindo ao projeto **Moda Feminina**, uma aplicação web que conecta as últi
   - [Backend](#backend)
   - [Frontend](#frontend)
   - [Admin](#admin)
-- [Google Cloud Storage](#google-cloud-storage)
+- [Armazenamento de Imagens com Google Cloud Storage](#armazenamento-de-imagens-com-google-cloud-storage)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Deploy](#deploy)
 - [Contato](#contato)
 
 ---
 
 ## **Visão Geral do Projeto**
-**Moda Feminina** é um projeto full-stack que inclui:
+O **Moda Feminina** é composto por três módulos principais que trabalham em conjunto:
 - **Admin**: Painel de administração para gerenciar produtos, categorias e usuários.
-- **Frontend**: Interface do cliente para navegação e compras.
-- **Backend**: API para gerenciar a lógica do servidor, autenticação e interação com o banco de dados.
-- **Google Cloud Storage**: Armazenamento de imagens para produtos e usuários.
+- **Frontend**: Interface de cliente, projetada para uma navegação fluida e intuitiva.
+- **Backend**: API responsável por gerenciar a lógica de negócios, autenticação e integração com o banco de dados.
+
+**Moda Íntima Feminina**  
+A moda íntima feminina é mais do que funcionalidade; é uma expressão de estilo, conforto e bem-estar. Este projeto reflete essa visão, proporcionando uma experiência moderna e personalizada para cada cliente.
 
 ---
 
@@ -33,7 +37,6 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 - [Git](https://git-scm.com/)
 - [MongoDB](https://www.mongodb.com/) (local ou em nuvem)
 - [Google Cloud CLI](https://cloud.google.com/sdk)
-- [Railway CLI](https://railway.app/cli) (para deploy do backend)
 
 ---
 
@@ -54,8 +57,6 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
      GOOGLE_CLOUD_PROJECT_ID=seu-projeto-id
      GOOGLE_CLOUD_BUCKET_NAME=nome-do-bucket
      ```
-   - **Admin** e **Frontend**:
-     Não são necessárias variáveis de ambiente para desenvolvimento local.
 
 ---
 
@@ -77,7 +78,7 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
    npm start
    ```
 
-4. Certifique-se de que o backend está rodando no [http://localhost:8000](http://localhost:8000).
+4. Certifique-se de que o backend está rodando no [http://localhost:8000](http://localhost:4000).
 
 ---
 
@@ -121,9 +122,9 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 
 ---
 
-## **Google Cloud Storage**
-1. Certifique-se de que o projeto no Google Cloud está configurado com um bucket de armazenamento.
-2. Atualize as permissões do bucket para permitir acesso às imagens do frontend.
+## **Armazenamento de Imagens com Google Cloud Storage**
+1. Certifique-se de que seu bucket no Google Cloud está configurado.
+2. Atualize as permissões do bucket para permitir acesso público às imagens.
 3. Configure as credenciais do Google Cloud no backend usando um arquivo JSON de chave de serviço.
 4. Execute o comando para autenticar:
    ```bash
@@ -132,12 +133,27 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
 
 ---
 
+## **Tecnologias Utilizadas**
+- **Frontend**: React, React Router DOM
+- **Backend**: Node.js, Express
+- **Banco de Dados**: MongoDB
+- **Armazenamento de Imagens**: Google Cloud Storage
+
+---
+
+## **Deploy**
+- **Frontend**: [moda-feminina.vercel.app](https://moda-feminina.vercel.app)
+- **Backend**: Deploy realizado no Railway.
+- **Banco de Dados**: MongoDB Atlas para armazenamento em nuvem.
+
+---
+
 ## **Contato**
-Se tiver dúvidas ou problemas, entre em contato:
-- **Nome**: Yale  Souza
-- **E-mail**: yale.designers@gmail.com
+Se tiver dúvidas ou sugestões, entre em contato:
+- **Nome**: Yale Souza  
+- **E-mail**: yale.designers@gmail.com  
 - **Portfólio**: [www.yaledesigner.com.br](http://www.yaledesigner.com.br)
 
 ---
 
-Agora você está pronto para instalar, executar e gerenciar o projeto **Moda Feminina**! 🚀
+Aproveite o projeto **Moda Feminina** e explore o universo da moda íntima com tecnologia e inovação! 🚀
