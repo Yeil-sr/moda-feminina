@@ -78,7 +78,7 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas em s
    npm start
    ```
 
-4. Certifique-se de que o backend está rodando no [http://localhost:8000](http://localhost:4000).
+4. Certifique-se de que o backend está rodando no [http://localhost:4000](http://localhost:4000).
 
 ---
 
